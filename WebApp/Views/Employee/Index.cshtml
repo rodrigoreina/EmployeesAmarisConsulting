@@ -1,0 +1,59 @@
+﻿@model EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Employees</h3>
+
+<form asp-controller="Employee" asp-action="Index" method="post">
+    <div class="form-group col-md-3">
+        <label asp-for="EmployeeId" class="control-label">Search By Employee ID</label>
+        <input asp-for="EmployeeId" type="number" class="form-control" value="@Model.EmployeeId" />
+        <span asp-validation-for="EmployeeId" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2 col-md-3">
+        <input type="submit" value="Search" class="btn btn-primary mb-3" />
+    </div>
+</form>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if(Model.Employees.Count() > 0)
+{
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Age</th>
+                <th>Annual Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model.Employees)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td>@employee.Employee_Name</td>
+                    <td>@employee.Employee_Salary.ToString("C2")</td>
+                    <td>@employee.Employee_Age</td>
+                    <td>@employee.Employee_Annual_Salary.ToString("C2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
